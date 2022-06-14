@@ -2,19 +2,39 @@
   "name": "chemencrypt",
   "version": "1.0.0",
   "description": "ChemCryption is now available at https://chemrxiv.org/articles/preprint/Plausibly_Deniable_Chemical_Encryption_Hiding_a_Molecule_in_a_Haystack/12901766/1.",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --config jestconfig.json",
+    "build": "tsc",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "lint": "tslint -p tsconfig.json",
+    "prepare" : "npm run build",
+    "prepublishOnly" : "npm test && npm run lint",
+    "preversion" : "npm run lint",
+    "version" : "npm run format && git add -A src",
+    "postversion" : "git push && git push --tags"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wilddesign/chemencrypt.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["plausibly","deniable","chemistry","encryption"],
+  "author": "Wojciech Nogaś",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/wilddesign/chemencrypt/issues"
   },
-  "homepage": "https://github.com/wilddesign/chemencrypt#readme"
+  "homepage": "https://github.com/wilddesign/chemencrypt#readme",
+  "devDependencies": {
+    "@types/jest": "^28.1.1",
+    "jest": "^28.1.1",
+    "prettier": "^2.7.0",
+    "ts-jest": "^28.0.5",
+    "tslint": "^6.1.3",
+    "tslint-config-prettier": "^1.18.0"
+  },
+  "files": [
+    "lib/**/*"
+  ]
 }
