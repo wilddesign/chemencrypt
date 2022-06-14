@@ -1,0 +1,20 @@
+{
+  "name": "chemencrypt",
+  "version": "1.0.0",
+  "description": "ChemCryption is now available at https://chemrxiv.org/articles/preprint/Plausibly_Deniable_Chemical_Encryption_Hiding_a_Molecule_in_a_Haystack/12901766/1.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wilddesign/chemencrypt.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wilddesign/chemencrypt/issues"
+  },
+  "homepage": "https://github.com/wilddesign/chemencrypt#readme"
+}
