@@ -25,7 +25,7 @@ test('Property object is generated with string, number or arrays string[] or num
 
 
 test('Chemical object is generated with properties', () => {
-  let props = [new Property('x','abc'), new Property('x',1.)]
+  let props = [new Property('x','abc'), new Property('y',1.)]
   expect(new Chemical('x','abc', props)).toEqual({
     name: 'x',
     formula: 'abc',
@@ -33,14 +33,19 @@ test('Chemical object is generated with properties', () => {
       name: 'x',
       value: 'abc'
     },{
-      name: 'x',
+      name: 'y',
       value: 1.
     }]
   });
 });
 
-test('Chemical component object is generated with a quantity', () => {
+test('Error when a Chemical object is generated with duplicate properties', () => {
   let props = [new Property('x','abc'), new Property('x',1.)]
+  expect(() => {let a = new Chemical('x','abc', props)}).toThrow('Duplicate property name!');
+});
+
+test('Chemical component object is generated with a quantity', () => {
+  let props = [new Property('x','abc'), new Property('y',1.)]
   let chemical = new Chemical('x','abc', props)
   expect(new ComponentChemical(chemical, 0.5)).toEqual({
     name: 'x',
@@ -50,14 +55,14 @@ test('Chemical component object is generated with a quantity', () => {
       name: 'x',
       value: 'abc'
     },{
-      name: 'x',
+      name: 'y',
       value: 1.
     }]
   });
 });
 
 test('MixtureOfChemicals object is generated correctly', () => {
-  let props1 = [new Property('x','abc'), new Property('x',1.)]
+  let props1 = [new Property('x','abc'), new Property('y',1.)]
   let chemical1 = new Chemical('x','abc', props1)
 
   let props2 = [new Property('y','abcd'), new Property('b','aa')]
@@ -77,7 +82,7 @@ test('MixtureOfChemicals object is generated correctly', () => {
         name: 'x',
         value: 'abc'
       },{
-        name: 'x',
+        name: 'y',
         value: 1.
       }]
     },{

@@ -8,7 +8,11 @@ export class Property {
   }
 }
 
-export class Chemical {
+interface ExposePropertyValueByName {
+  exposePropertyValueByName(name: string): string | number | string[] | number[]
+}
+
+export class Chemical implements ExposePropertyValueByName {
   name: string
   formula: string
   properties: Array<Property>
@@ -16,7 +20,20 @@ export class Chemical {
   constructor (name: string, formula: string, props: Array<Property>){
     this.name = name
     this.formula = formula
+    //check if duplicate props
+    if (props.length != new Set(props.map(prop => prop.name)).size){
+      //console.log(props.length != new Set(props.map(prop => prop.name)).size,props, new Set(props.map(prop => prop.name)))
+      throw new Error('Duplicate property name!')
+    }
     this.properties = props
+  }
+
+  exposePropertyValueByName(name:string) {
+    let filtered = this.properties.filter((property) => property.name === name)
+    if (filtered.length > 1) {
+      throw new Error('Duplicate property name!')
+    }
+    return filtered[0].value
   }
 }
 
