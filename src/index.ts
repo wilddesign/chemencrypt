@@ -28,7 +28,7 @@ export class ComponentChemical extends Chemical {
   }
 }
 
-/*class mixtureOfChemicals {
+export class MixtureOfChemicals {
   name: string
   description: string
   components: Array<ComponentChemical>
@@ -37,7 +37,7 @@ export class ComponentChemical extends Chemical {
     this.description = description
     this.components = components
   }
-}*/
+}
 
 /*export class EncryptedMixtureOfChemicals {
   name: string
