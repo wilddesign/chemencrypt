@@ -3,7 +3,7 @@ import {Calculator, Config, BasicCalculations, BasicSearches} from '../calculati
 import {Property, Chemical, ComponentChemical, MixtureOfChemicals} from '../index';
 
 
-console.log('Testing use cases in integration tests')
+//console.log('Testing use cases in integration tests')
 /*
 let props1 = [new Property('x','abc'), new Property('y',1.)]
 let chemical1 = new Chemical('x','abc', props1)
@@ -45,16 +45,21 @@ test('Integration test 1', () => {
   let chemicalsDB = [chemical1, chemical2, chemical3]
 
 
-  let encrp = [new Property('cnmr',[105,180,30]), new Property('uvvis',450), new Property('mass',121)]
-  let encrc = new Chemical('nosylic acid','C12H8N4O2', props3)
-  console.log('find isomers')
-  console.log(BasicSearches.findIsomers(encrc,chemicalsDB))
+  let encrp = [new Property('cnmr',[105,180,30]), new Property('uvvis',405), new Property('mass',121)]
+  let encrc = new Chemical('nosylic acid','C12H8N4O2', encrp)
+  //console.log('find isomers')
+  //console.log(BasicSearches.findIsomers(encrc,chemicalsDB))
   expect(BasicSearches.findIsomers(encrc,chemicalsDB).length).toEqual(1);
 
-  console.log('find similars')
-  console.log(BasicSearches.findIsomers(encrc,chemicalsDB))
-
+  //console.log('find similars by uvvis')
+  let uvvisConfig = new Config(20)
+  //console.log(BasicSearches.findAllChemicalsByPropCondition(encrc.properties[1],chemicalsDB,uvvisConfig))
+  expect(BasicSearches.findAllChemicalsByPropCondition(encrc.properties[1],chemicalsDB,uvvisConfig).length).toEqual(2);
   //let components = [new ComponentChemical(chemical1, 1), new ComponentChemical(chemical2, 0.3)]
+  //console.log('find similars by cnmr with multiple signals')
+  let cnmrConfig = new Config(5)
+  //console.log(BasicSearches.findAllChemicalsByPropCondition(encrc.properties[0],chemicalsDB,cnmrConfig))
+  expect(BasicSearches.findAllChemicalsByPropCondition(encrc.properties[0],chemicalsDB,cnmrConfig).length).toEqual(2);
 
   /*expect(new MixtureOfChemicals('test', 'test mixture', components)).toEqual({
     name: 'test',

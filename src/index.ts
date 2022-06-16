@@ -2,16 +2,20 @@ export {Calculator, Config} from './calculations'
 
 export class Property {
   name: string
-  value: string | number | string[] | number[]
+  value: number[]
 
-  constructor(name: string, value: string | number | string[] | number[]){
+  constructor(name: string, value: number | number[]){
     this.name = name
-    this.value = value
+    if (Array.isArray(value)){
+      this.value = value
+    } else {
+      this.value = [value]
+    }
   }
 }
 
 interface ExposePropertyValueByName {
-  exposePropertyValueByName(name: string): string | number | string[] | number[]
+  exposePropertyValueByName(name: string): number[]
 }
 
 export class Chemical implements ExposePropertyValueByName {

@@ -2,7 +2,7 @@
 import {Calculator, Config, BasicCalculations} from '../calculations';
 
 
-console.log('Testing Calculator functions')
+//console.log('Testing Calculator functions')
 
 test('Config object is created', () => {
   expect(new Config(1.)).toEqual({
