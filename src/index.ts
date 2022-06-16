@@ -1,3 +1,5 @@
+export {Calculator, Config} from './calculations'
+
 export class Property {
   name: string
   value: string | number | string[] | number[]
