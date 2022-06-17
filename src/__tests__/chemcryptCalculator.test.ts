@@ -25,6 +25,3 @@ test('BasicCalculations object performs correctly', () => {
 test('Calculator object is instantiated', () => {
   expect(new Calculator()).toBeDefined();
 });
-
-// we need a function that takes a list of chemicals and returns
-// a mixtureofchemicals

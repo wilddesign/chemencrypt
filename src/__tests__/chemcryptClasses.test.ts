@@ -65,6 +65,20 @@ test('MixtureOfChemicals object is generated correctly', () => {
   expect(new MixtureOfChemicals('test', 'test mixture', components)).toEqual({
     name: 'test',
     description: 'test mixture',
+    properties: [
+      {
+        name: 'x',
+        value: [2]
+      },
+      {
+        name: 'y',
+        value: [1.,23]
+      },
+      {
+        name: 'b',
+        value: [67]
+      },
+    ],
     components:[
       {
       name: 'x',
@@ -89,6 +103,103 @@ test('MixtureOfChemicals object is generated correctly', () => {
       value: [67]
     }]
   }
+    ]
+  });
+});
+
+test('MixtureOfChemicals object functions correctly', () => {
+  let props1 = [new Property('x',2), new Property('y',1.)]
+  let chemical1 = new Chemical('x','abc', props1)
+
+  let props2 = [new Property('y',23), new Property('b',67)]
+  let chemical2 = new Chemical('x','abc', props2)
+
+  let components = [new ComponentChemical(chemical1, 1), new ComponentChemical(chemical2, 0.3)]
+  let mixture = new MixtureOfChemicals('test', 'test mixture', components)
+  mixture.modifyName('new test')
+  mixture.modifyDescription('new description')
+  expect([mixture.name, mixture.description]).toEqual(['new test', 'new description']);
+});
+
+test('MixtureOfChemicals object adds new components', () => {
+  let props1 = [new Property('x',2), new Property('y',1.)]
+  let chemical1 = new Chemical('x','abc', props1)
+
+  let props2 = [new Property('y',23), new Property('b',67)]
+  let chemical2 = new Chemical('x','abc', props2)
+
+  let components = [new ComponentChemical(chemical1, 1), new ComponentChemical(chemical2, 0.3)]
+  let mixture = new MixtureOfChemicals('test', 'test mixture', components)
+
+  let chemical3 = new Chemical('x2','abc', [new Property('x',21), new Property('y',11.)])
+  let chemical4 = new Chemical('x22','abc', [new Property('y',231), new Property('b',671)])
+  let components2 = [new ComponentChemical(chemical3, 1), new ComponentChemical(chemical4, 0.3)]
+//console.log(mixture.properties)
+  mixture.addNewComponents(components2)
+  //console.log(mixture.properties)
+  expect(mixture).toEqual({
+    name: 'test',
+    description: 'test mixture',
+    properties: [
+      {
+        name: 'x',
+        value: [2,21]
+      },
+      {
+        name: 'y',
+        value: [1.,23,11.,231]
+      },
+      {
+        name: 'b',
+        value: [67,671]
+      },
+    ],
+    components:[
+      {
+      name: 'x',
+      formula: 'abc',
+      quantity: 1,
+      properties: [{
+        name: 'x',
+        value: [2]
+      },{
+        name: 'y',
+        value: [1.]
+      }]
+      },{
+      name: 'x',
+      formula: 'abc',
+      quantity: 0.3,
+      properties: [{
+        name: 'y',
+        value: [23]
+      },{
+        name: 'b',
+        value: [67]
+      }]
+      },{
+      name: 'x2',
+      formula: 'abc',
+      quantity: 1,
+      properties: [{
+        name: 'x',
+        value: [21]
+      },{
+        name: 'y',
+        value: [11.]
+      }]
+      },{
+      name: 'x22',
+      formula: 'abc',
+      quantity: 0.3,
+      properties: [{
+        name: 'y',
+        value: [231]
+      },{
+        name: 'b',
+        value: [671]
+      }]
+      }
     ]
   });
 });

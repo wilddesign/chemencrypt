@@ -55,51 +55,65 @@ export class MixtureOfChemicals {
   name: string
   description: string
   components: Array<ComponentChemical>
+  properties: Array<Property>
   constructor(name: string, description: string, components: Array<ComponentChemical>){
     this.name = name
     this.description = description
     this.components = components
+    this.properties = this.calculateSummaryProperty(this.components)
+  }
+
+  protected mergeAllComponentPropertiesIntoOne(): Array<Property>{
+    let result: Array<Property> = []
+    this.components.forEach(component => {
+        result = result.concat(component.properties)
+    });
+    return result
+  }
+
+  protected filterPropertiesByName(name: string): Array<Property>{
+    let allProperties = this.mergeAllComponentPropertiesIntoOne()
+    return allProperties.filter((property) => {
+      return property.name === name
+    })
+  }
+
+  protected mergePropertiesIntoOne(name: string, arr: Array<Property>): Property{
+    let newProps: number[] = []
+    arr.forEach(property => {
+      newProps = newProps.concat(property.value)
+    });
+    return new Property(name, newProps)
+  }
+
+  calculateSummaryProperty(components: Array<ComponentChemical>): Array<Property> {
+    let allPropertiesNamesPresent = this.getAllPropertiesNames()
+    //for each property name build a new property containing filtered properties
+    let mergedProperties: Array<Property> = []
+    allPropertiesNamesPresent.forEach(propertyName => {
+      mergedProperties.push(this.mergePropertiesIntoOne(propertyName, this.filterPropertiesByName(propertyName)))
+    });
+    return mergedProperties
+  }
+
+  protected getAllPropertiesNames(): Array<string>{
+    let result: string[] = []
+    this.components.forEach(component => {
+        component.properties.forEach(property => {
+          result.push(property.name)
+        });
+    });
+    return Array.from(new Set(result))
+  }
+
+  addNewComponents(component: Array<ComponentChemical>): void {
+    this.components = this.components.concat(component)
+    this.properties = this.calculateSummaryProperty(this.components)
+  }
+  modifyName(newString: string): void {
+    this.name = newString
+  }
+  modifyDescription(newString: string): void {
+    this.description = newString
   }
 }
-
-/*export class EncryptedMixtureOfChemicals {
-  name: string
-  description: string
-  components: Array<ComponentChemical>
-  toBeEncrypted: Chemical
-  constructor(name: string, description = "", toBeEncrypted: Chemical, availableComponents: Array<Chemical>) {
-    this.name = name
-    this.description = description
-    this.toBeEncrypted = toBeEncrypted
-    this.components = this.generateInterferentMixture(toBeEncrypted, availableComponents)
-  }
-
-  generateInterferentMixture(toBeEncrypted: Chemical, availableComponents: Array<Chemical>): Array<ComponentChemical> {
-    //generates encrypted toBeEncrypted in a mixture of components and returns the mixture composition by assigning quantities to each of then
-    //components from the array of availableComponents
-    return [new ComponentChemical(toBeEncrypted, 1)]
-  }
-}*/
-//moleculeRepresentation
-//component = molecule + quantity
-//mixtureRepresentation
-//signalsRepresentation
-// signalRepresentation
-//a single moleculeRepresentation can be assigned to a single vector of signalsRepresentation and pushed to mixtureRepresentation of the mixture
-// then for this mixture, another vector can be assigned (and added compound) that is near any of the mixture's signal
-// this operation can be repeated n-times for each signal
-
-
-//findByPropertyDiffLessThanEpsilon(property, value, epsilon)
-
-
-
-
-// how to describe reactions of the encryptee with the interferents?
-
-
-//Can amphetamin become no longer controlled with plausibly deniable chemical encryption? An in silico study
-/*In this article we present an algorithm of plausibly deniable chemical encryption and its use to render
-the cost of amphetamin identification in a sample higher, thus protecting it from being identified.
-
-*/

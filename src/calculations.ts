@@ -7,9 +7,6 @@ export class Config {
   }
 }
 
-/*interface CalculateInterferentMixture {
-  calculateInterferentMixture(toBeEncrypted: Chemical, availableChemicals: Chemical[], config: Config): MixtureOfChemicals
-}*/
 
 export class BasicCalculations {
   static isMatchByNumber(measure1: number, measure2: number, epsilon: number): boolean {
@@ -46,15 +43,9 @@ export class BasicSearches {
   }
 }
 
-/*export class BasicSelects {
-
-}*/
 
 export class Calculator {
   constructor(){
   }
 
-  /*static calculateInterferentMixture(toBeEncrypted: Chemical, availableChemicals: Chemical[], config: Config): MixtureOfChemicals (){
-
-  }*/
 }
