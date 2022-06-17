@@ -43,6 +43,26 @@ export class BasicSearches {
   }
 }
 
+export class BasicSelects {
+
+  static randomInteger(max: number, min: number): number{
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+  static selectAll(candidates: Array<Chemical>): Array<Chemical>{
+    return candidates
+  }
+
+  static selectOneRandomly(candidates: Array<Chemical>): Array<Chemical>{
+    if (candidates.length === 1) {
+      return candidates
+    } else {
+      return [candidates[this.randomInteger(candidates.length-1, 0)]]
+    }
+  }
+}
+
 
 export class Calculator {
   constructor(){

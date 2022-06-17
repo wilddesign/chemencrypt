@@ -1,5 +1,5 @@
 
-import {Calculator, Config, BasicCalculations, BasicSearches} from '../calculations';
+import {Calculator, Config, BasicCalculations, BasicSearches, BasicSelects} from '../calculations';
 import {Property, Chemical, ComponentChemical, MixtureOfChemicals} from '../index';
 
 
@@ -31,7 +31,10 @@ test('Integration test 1', () => {
   let cnmrConfig = new Config(5)
   //console.log(BasicSearches.findAllChemicalsByPropCondition(encrc.properties[0],chemicalsDB,cnmrConfig))
   expect(BasicSearches.findAllChemicalsByPropCondition(encrc.properties[0],chemicalsDB,cnmrConfig).length).toEqual(2);
-
+  expect(BasicSelects.selectAll(BasicSearches.findAllChemicalsByPropCondition(encrc.properties[0],chemicalsDB,cnmrConfig)).length).toEqual(2);
+  let toBeSelected = BasicSearches.findAllChemicalsByPropCondition(encrc.properties[0],chemicalsDB,cnmrConfig)
+  expect(BasicSelects.selectOneRandomly(toBeSelected).length).toEqual(1);
+  //console.log(BasicSelects.selectOneRandomly(toBeSelected))
 });
 
 test('Integration test 2', () => {
