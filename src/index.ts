@@ -1,4 +1,4 @@
-export {Calculator, Config} from './calculations'
+export {Config} from './calculations'
 
 export class Property {
   name: string

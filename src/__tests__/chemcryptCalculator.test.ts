@@ -1,5 +1,5 @@
 
-import {Calculator, Config, BasicCalculations} from '../calculations';
+import {Config, BasicCalculations} from '../calculations';
 
 
 //console.log('Testing Calculator functions')
@@ -17,11 +17,4 @@ test('BasicCalculations object performs correctly', () => {
   expect(BasicCalculations.isMatchByNumber(0,10,20)).toEqual(true);
   expect(BasicCalculations.isEqual('a','a')).toEqual(true);
   expect(BasicCalculations.isEqual('a','b')).toEqual(false);
-});
-
-
-
-
-test('Calculator object is instantiated', () => {
-  expect(new Calculator()).toBeDefined();
 });

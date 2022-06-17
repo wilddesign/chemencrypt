@@ -1,8 +1,10 @@
 import {Property, Chemical, ComponentChemical, MixtureOfChemicals} from './index'
 
 export class Config {
+  propertyName?: string
   epsilon: number
-  constructor(epsilon: number){
+  constructor(epsilon: number, propName?: string){
+    this.propertyName = propName
     this.epsilon = epsilon
   }
 }
@@ -61,11 +63,4 @@ export class BasicSelects {
       return [candidates[this.randomInteger(candidates.length-1, 0)]]
     }
   }
-}
-
-
-export class Calculator {
-  constructor(){
-  }
-
 }

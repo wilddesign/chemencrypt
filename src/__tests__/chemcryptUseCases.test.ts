@@ -1,7 +1,7 @@
 
-import {Calculator, Config, BasicCalculations, BasicSearches, BasicSelects} from '../calculations';
+import {Config, BasicCalculations, BasicSearches, BasicSelects} from '../calculations';
 import {Property, Chemical, ComponentChemical, MixtureOfChemicals} from '../index';
-
+import {PlausiblyDeniableChemicalEncryption} from '../encryption'
 
 test('Integration test 1', () => {
   let props1 = [new Property('cnmr',[50,100,150]), new Property('uvvis',400), new Property('mass',131)]
@@ -54,5 +54,15 @@ test('Integration test 2', () => {
   let encrc = new Chemical('nosylic acid','C12H8N4O2', encrp)
   let encrco = new ComponentChemical(encrc, 1)
   let encrm = new MixtureOfChemicals('mixture 1', 'test mixture', [encrco])
-
+  // now we have tools for the selection of interferents, thus we can build
+  // encrypted mixtures containing encrm
+  // this accepts the input chemical, list of available interferents and encryption
+  // configs
+  let uvvisConfig = new Config(20,'uvvis')
+  let cnmrConfig = new Config(5,'cnmr')
+  let encryption1 = new PlausiblyDeniableChemicalEncryption(encrm, chemicalsDB,[uvvisConfig,cnmrConfig])
+  expect(encryption1).toBeDefined()
+  expect(encryption1.encrypt).toBeDefined()
+  // it moves chemicals from available to input, assigning random quantity.
+  // interferent choice is controlled via configs
 });
