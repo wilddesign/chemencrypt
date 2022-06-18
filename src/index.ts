@@ -57,10 +57,25 @@ export class MixtureOfChemicals {
   components: Array<ComponentChemical>
   properties: Array<Property>
   constructor(name: string, description: string, components: Array<ComponentChemical>){
+    //throw error when somebody tries to create it using components Array
+    //with duplicate names
+    this.checkForDuplicates(components)
     this.name = name
     this.description = description
     this.components = components
     this.properties = this.calculateSummaryProperty(this.components)
+  }
+
+  protected checkForDuplicates(arr: Array<ComponentChemical>){
+    let names: string[] = []
+    arr.forEach(component => {
+      names.push(component.name)
+    });
+    if (names.length !== Array.from(new Set(names)).length) {
+      throw new Error('Error trying to build MixtureOfChemicals with components array containing duplicates!')
+    } else {
+      return
+    }
   }
 
   protected mergeAllComponentPropertiesIntoOne(): Array<Property>{

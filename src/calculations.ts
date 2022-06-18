@@ -1,9 +1,9 @@
 import {Property, Chemical, ComponentChemical, MixtureOfChemicals} from './index'
 
 export class Config {
-  propertyName?: string
+  propertyName: string
   epsilon: number
-  constructor(epsilon: number, propName?: string){
+  constructor(epsilon: number, propName: string){
     this.propertyName = propName
     this.epsilon = epsilon
   }

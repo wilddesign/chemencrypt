@@ -1,7 +1,7 @@
 
 import {Config, BasicCalculations, BasicSearches, BasicSelects} from '../calculations';
 import {Property, Chemical, ComponentChemical, MixtureOfChemicals} from '../index';
-import {PlausiblyDeniableChemicalEncryption} from '../encryption'
+import {PlausiblyDeniableChemicalEncryption, PlausiblyDeniableChemicalEncryptionConfigs} from '../encryption'
 
 test('Integration test 1', () => {
   let props1 = [new Property('cnmr',[50,100,150]), new Property('uvvis',400), new Property('mass',131)]
@@ -23,12 +23,12 @@ test('Integration test 1', () => {
   expect(BasicSearches.findIsomers(encrc,chemicalsDB).length).toEqual(1);
 
   //console.log('find similars by uvvis')
-  let uvvisConfig = new Config(20)
+  let uvvisConfig = new Config(20,'uvvis')
   //console.log(BasicSearches.findAllChemicalsByPropCondition(encrc.properties[1],chemicalsDB,uvvisConfig))
   expect(BasicSearches.findAllChemicalsByPropCondition(encrc.properties[1],chemicalsDB,uvvisConfig).length).toEqual(2);
   //let components = [new ComponentChemical(chemical1, 1), new ComponentChemical(chemical2, 0.3)]
   //console.log('find similars by cnmr with multiple signals')
-  let cnmrConfig = new Config(5)
+  let cnmrConfig = new Config(5,'cnmr')
   //console.log(BasicSearches.findAllChemicalsByPropCondition(encrc.properties[0],chemicalsDB,cnmrConfig))
   expect(BasicSearches.findAllChemicalsByPropCondition(encrc.properties[0],chemicalsDB,cnmrConfig).length).toEqual(2);
   expect(BasicSelects.selectAll(BasicSearches.findAllChemicalsByPropCondition(encrc.properties[0],chemicalsDB,cnmrConfig)).length).toEqual(2);
@@ -60,9 +60,11 @@ test('Integration test 2', () => {
   // configs
   let uvvisConfig = new Config(20,'uvvis')
   let cnmrConfig = new Config(5,'cnmr')
-  let encryption1 = new PlausiblyDeniableChemicalEncryption(encrm, chemicalsDB,[uvvisConfig,cnmrConfig])
+  let encryptConfigs = new PlausiblyDeniableChemicalEncryptionConfigs('single','single', 1)
+  expect(encryptConfigs).toBeDefined()
+  let encryption1 = new PlausiblyDeniableChemicalEncryption(encrm, chemicalsDB,[uvvisConfig,cnmrConfig], encryptConfigs)
   expect(encryption1).toBeDefined()
-  expect(encryption1.encrypt).toBeDefined()
+
   // it moves chemicals from available to input, assigning random quantity.
   // interferent choice is controlled via configs
 });

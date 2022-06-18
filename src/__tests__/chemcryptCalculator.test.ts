@@ -5,8 +5,9 @@ import {Config, BasicCalculations} from '../calculations';
 //console.log('Testing Calculator functions')
 
 test('Config object is created', () => {
-  expect(new Config(1.)).toEqual({
-    epsilon: 1.
+  expect(new Config(1., 'x')).toEqual({
+    epsilon: 1.,
+    propertyName: 'x'
   });
 });
 

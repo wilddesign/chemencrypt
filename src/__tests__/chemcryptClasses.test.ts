@@ -58,7 +58,7 @@ test('MixtureOfChemicals object is generated correctly', () => {
   let chemical1 = new Chemical('x','abc', props1)
 
   let props2 = [new Property('y',23), new Property('b',67)]
-  let chemical2 = new Chemical('x','abc', props2)
+  let chemical2 = new Chemical('xx','abc', props2)
 
   let components = [new ComponentChemical(chemical1, 1), new ComponentChemical(chemical2, 0.3)]
 
@@ -92,7 +92,7 @@ test('MixtureOfChemicals object is generated correctly', () => {
         value: [1.]
       }]
     },{
-    name: 'x',
+    name: 'xx',
     formula: 'abc',
     quantity: 0.3,
     properties: [{
@@ -112,7 +112,7 @@ test('MixtureOfChemicals object functions correctly', () => {
   let chemical1 = new Chemical('x','abc', props1)
 
   let props2 = [new Property('y',23), new Property('b',67)]
-  let chemical2 = new Chemical('x','abc', props2)
+  let chemical2 = new Chemical('xx','abc', props2)
 
   let components = [new ComponentChemical(chemical1, 1), new ComponentChemical(chemical2, 0.3)]
   let mixture = new MixtureOfChemicals('test', 'test mixture', components)
@@ -121,12 +121,24 @@ test('MixtureOfChemicals object functions correctly', () => {
   expect([mixture.name, mixture.description]).toEqual(['new test', 'new description']);
 });
 
-test('MixtureOfChemicals object adds new components', () => {
+test('MixtureOfChemicals object returns error with duplicates in input', () => {
   let props1 = [new Property('x',2), new Property('y',1.)]
   let chemical1 = new Chemical('x','abc', props1)
 
   let props2 = [new Property('y',23), new Property('b',67)]
   let chemical2 = new Chemical('x','abc', props2)
+
+  let components = [new ComponentChemical(chemical1, 1), new ComponentChemical(chemical2, 0.3),new ComponentChemical(chemical2, 0.6)]
+
+  expect(() => {let mixture = new MixtureOfChemicals('test', 'test mixture', components)}).toThrow('Error trying to build MixtureOfChemicals with components array containing duplicates!')
+});
+
+test('MixtureOfChemicals object adds new components', () => {
+  let props1 = [new Property('x',2), new Property('y',1.)]
+  let chemical1 = new Chemical('x','abc', props1)
+
+  let props2 = [new Property('y',23), new Property('b',67)]
+  let chemical2 = new Chemical('xx','abc', props2)
 
   let components = [new ComponentChemical(chemical1, 1), new ComponentChemical(chemical2, 0.3)]
   let mixture = new MixtureOfChemicals('test', 'test mixture', components)
@@ -167,7 +179,7 @@ test('MixtureOfChemicals object adds new components', () => {
         value: [1.]
       }]
       },{
-      name: 'x',
+      name: 'xx',
       formula: 'abc',
       quantity: 0.3,
       properties: [{
