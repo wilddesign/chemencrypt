@@ -60,11 +60,12 @@ test('Integration test 2', () => {
   // configs
   let uvvisConfig = new Config(20,'uvvis')
   let cnmrConfig = new Config(5,'cnmr')
-  let encryptConfigs = new PlausiblyDeniableChemicalEncryptionConfigs('single','single', 1)
+  let encryptConfigs = new PlausiblyDeniableChemicalEncryptionConfigs('single','single', 1,['cnmr','uvvis'])
   expect(encryptConfigs).toBeDefined()
-  let encryption1 = new PlausiblyDeniableChemicalEncryption(encrm, chemicalsDB,[uvvisConfig,cnmrConfig], encryptConfigs)
+  let encryption1 = new PlausiblyDeniableChemicalEncryption(encrm, encrc, chemicalsDB,[uvvisConfig,cnmrConfig], encryptConfigs)
   expect(encryption1).toBeDefined()
-
+  encryption1.encrypt()
+  console.log(encryption1.returnEncryptedMixture())
   // it moves chemicals from available to input, assigning random quantity.
   // interferent choice is controlled via configs
 });
