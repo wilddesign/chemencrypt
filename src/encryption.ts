@@ -55,10 +55,11 @@ export class PlausiblyDeniableChemicalEncryption {
         escrow = escrow.concat(BasicSelects.selectAll(isomers))
       }
       //select interferents
-      this.configs.forEach(param => {
+      console.log(this.configs)
+      this.encryptParams.propertiesInterfered.forEach(param => {
         //find the property in this.encryptedTypeChemical
-        let propOfInterest: Property = this.encryptedTypeChemical.properties.filter((prop) => {return prop.name === param.propertyName})[0]
-        let configFittingTheParam: Config = this.configs.filter((conf) => {return conf.propertyName === param.propertyName})[0]
+        let propOfInterest: Property = this.encryptedTypeChemical.properties.filter((prop) => {return prop.name === param})[0]
+        let configFittingTheParam: Config = this.configs.filter((conf) => {return conf.propertyName === param})[0]
         let interferents: Array<Chemical> = BasicSearches.findAllChemicalsByPropCondition(propOfInterest, this.availableChemicals, configFittingTheParam)
         if(this.encryptParams.propertyConfig === 'single') {
           escrow = escrow.concat(BasicSelects.selectOneRandomly(interferents))
