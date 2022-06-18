@@ -48,27 +48,33 @@ export class PlausiblyDeniableChemicalEncryption {
     let escrow: Array<Chemical> = []
     for (let i = 0; i<this.encryptParams.numberOfCycles; i++){
       // select isomers
+      escrow = []
       let isomers: Array<Chemical> = BasicSearches.findIsomers(this.encryptedTypeChemical,this.availableChemicals)
       if(this.encryptParams.isomerConfig === 'single') {
         escrow = escrow.concat(BasicSelects.selectOneRandomly(isomers))
-      } else if (this.encryptParams.isomerConfig === 'single') {
+      } else if (this.encryptParams.isomerConfig === 'all') {
         escrow = escrow.concat(BasicSelects.selectAll(isomers))
       }
+      if(escrow.length){
+        this.moveChemicalsFromAvailableChemicalsToToBeEncrypted(escrow)
+      }
+
       //select interferents
-      console.log(this.configs)
       this.encryptParams.propertiesInterfered.forEach(param => {
+        escrow = []
         //find the property in this.encryptedTypeChemical
         let propOfInterest: Property = this.encryptedTypeChemical.properties.filter((prop) => {return prop.name === param})[0]
         let configFittingTheParam: Config = this.configs.filter((conf) => {return conf.propertyName === param})[0]
         let interferents: Array<Chemical> = BasicSearches.findAllChemicalsByPropCondition(propOfInterest, this.availableChemicals, configFittingTheParam)
         if(this.encryptParams.propertyConfig === 'single') {
           escrow = escrow.concat(BasicSelects.selectOneRandomly(interferents))
-        } else if (this.encryptParams.propertyConfig === 'single') {
+        } else if (this.encryptParams.propertyConfig === 'all') {
           escrow = escrow.concat(BasicSelects.selectAll(interferents))
         }
+        if(escrow.length){
+          this.moveChemicalsFromAvailableChemicalsToToBeEncrypted(escrow)
+        }
       });
-
-      this.moveChemicalsFromAvailableChemicalsToToBeEncrypted(escrow)
     }
   }
 

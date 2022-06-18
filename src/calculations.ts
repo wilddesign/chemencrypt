@@ -57,7 +57,10 @@ export class BasicSelects {
   }
 
   static selectOneRandomly(candidates: Array<Chemical>): Array<Chemical>{
-    if (candidates.length === 1) {
+    if (candidates.length === 0) {
+      let res: Array<Chemical> = []
+      return res
+    } else if (candidates.length === 1) {
       return candidates
     } else {
       return [candidates[this.randomInteger(candidates.length-1, 0)]]

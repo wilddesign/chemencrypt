@@ -66,6 +66,7 @@ test('Integration test 2', () => {
   expect(encryption1).toBeDefined()
   encryption1.encrypt()
   console.log(encryption1.returnEncryptedMixture())
+  console.log(encryption1.returnEncryptedMixture().properties)
   // it moves chemicals from available to input, assigning random quantity.
   // interferent choice is controlled via configs
 });
