@@ -159,7 +159,7 @@ test('MixtureOfChemicals object adds new components', () => {
       },
       {
         name: 'y',
-        value: [1.,23,11.,231]
+        value: [1.,11.,23,231]
       },
       {
         name: 'b',
