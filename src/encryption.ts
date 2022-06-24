@@ -1,6 +1,6 @@
 import {Property, Chemical, ComponentChemical, MixtureOfChemicals} from './index'
 import {Config, BasicCalculations, BasicSearches, BasicSelects } from './calculations'
-import {SetMeasures} from './setmeasures'
+import {SetMeasures, multipleOverlap} from './setmeasures'
 
 
 export class PlausiblyDeniableChemicalEncryptionConfigs {
@@ -16,8 +16,10 @@ export class PlausiblyDeniableChemicalEncryptionConfigs {
   }
 }
 
-type encryptionStats = {
-  measure: number
+type overlapStats = {
+  configName: string
+  sumOfOverlapAreas: number
+  numberOfOverlappingSignals: number
 }
 
 export class PlausiblyDeniableChemicalEncryption {
@@ -126,12 +128,29 @@ export class PlausiblyDeniableChemicalEncryption {
     this.availableChemicals.splice(index,1)
   }
 
-  calculateStats(propertyNames: Config[]) {
+  protected convertMultipleOverlapTypeToOverlapStats(multipleOverlap: multipleOverlap, name: string): overlapStats{
+    return {
+      configName: name,
+      sumOfOverlapAreas: multipleOverlap.sumOfOverlapAreas,
+      numberOfOverlappingSignals: multipleOverlap.numberOfOverlappingSignals
+    }
+  }
+
+  calculateOverlapStats(comparedChemical: Chemical): overlapStats[] {
     //for each propertyName signal in the analyte, calculate the
     // Lebesgue measures that pertain to the encryption efficiency,
     // namely, overlap of analyte and interferents signals
     // take epsilon from this.configs
-    return this.toBeEncrypted
+    let result: overlapStats[] = []
+    this.configs.forEach(conf => {
+          let mixtureSignalsForConf = this.returnEncryptedMixture().properties.filter((property) => {return property.name === conf.propertyName})
+          //console.log(mixtureSignalsForConf[0].value, comparedChemical.exposePropertyValueByName(conf.propertyName))
+          let stats = SetMeasures.calculateOverlapOfMultipleSignalsWithMultipleSignals(conf.epsilon, mixtureSignalsForConf[0].value, comparedChemical.exposePropertyValueByName(conf.propertyName))
+
+          result.push(this.convertMultipleOverlapTypeToOverlapStats(stats, conf.propertyName))
+    });
+
+    return result
   }
 
 }
