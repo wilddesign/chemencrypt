@@ -20,9 +20,9 @@ export class SetMeasures {
     }
 
     static calculateOverlapsOfASignalWithMultipleSignals(epsilon: number, singleSignal: number, multipleSignals: number[]): multipleOverlap{
-      let result = {
-        sumOfOverlapAreas: 0,
-        numberOfOverlappingSignals: 0
+      let result = {// starting with negative values to subtract the overlap with itself
+        sumOfOverlapAreas: -2*epsilon,
+        numberOfOverlappingSignals: -1
       }
       multipleSignals.forEach(signalFromMultiple => {
         let overlap = this.calculateOverlapAreaOfTwoSignals(epsilon, singleSignal, signalFromMultiple)
@@ -43,7 +43,7 @@ export class SetMeasures {
         let overlap = this.calculateOverlapsOfASignalWithMultipleSignals(epsilon, signalFromMultiple1, multipleSignals2)
         if (overlap.sumOfOverlapAreas > 0) {
           result.sumOfOverlapAreas += overlap.sumOfOverlapAreas
-          result.numberOfOverlappingSignals++
+          result.numberOfOverlappingSignals += overlap.numberOfOverlappingSignals
         }
       });
       return result
