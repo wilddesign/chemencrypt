@@ -43,7 +43,7 @@ export class SetMeasures {
         let overlap = this.calculateOverlapsOfASignalWithMultipleSignals(epsilon, signalFromMultiple1, multipleSignals2)
         if (overlap.sumOfOverlapAreas > 0) {
           result.sumOfOverlapAreas += overlap.sumOfOverlapAreas
-          result.numberOfOverlappingSignals++
+          result.numberOfOverlappingSignals += overlap.numberOfOverlappingSignals
         }
       });
       return result
